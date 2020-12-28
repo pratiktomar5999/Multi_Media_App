@@ -16,7 +16,9 @@ public class MainActivity extends AppCompatActivity {
         ONE,TWO,NO
     }
     Player currentPlayer = Player.ONE;
-    private int no = 0;
+    private int n = 0;
+    String winner = "";
+
 
     Player[] playerChoices = new Player[9];
     int [][] umpire = {{0,1,2},{3,4,5},{6,7,8},{0,3,6},{1,4,7},{2,5,8},{0,4,8},{2,4,6}};
@@ -46,6 +48,7 @@ public class MainActivity extends AppCompatActivity {
                     tappedImage.setImageResource(R.drawable.lion);
                     currentPlayer = Player.ONE;
                 }
+                n = n + 1;
 
                 Toast.makeText(this, tappedImage.getTag().toString() + "is Tapped", Toast.LENGTH_SHORT).show();
                 tappedImage.animate().translationXBy(2000).alpha(1).rotation(3600).setDuration(1000);
@@ -53,7 +56,7 @@ public class MainActivity extends AppCompatActivity {
                     if (playerChoices[winnerColumns[0]] == playerChoices[winnerColumns[1]]
                             && playerChoices[winnerColumns[1]] == playerChoices[winnerColumns[2]]
                             && playerChoices[winnerColumns[0]] != Player.NO) {
-                        String winner = new String();
+
                         if (currentPlayer == Player.ONE) {
                             winner = "Player Two";
                         } else if (currentPlayer == Player.TWO) {
@@ -77,6 +80,26 @@ public class MainActivity extends AppCompatActivity {
                                     }
                                 });
                         dialog.show();
+                    }
+                    if (n == 9 && winner == ""){
+                        AlertDialog.Builder dialogDraw = new AlertDialog.Builder(this)
+                                .setTitle("Match draw")
+                                .setCancelable(false)
+                                .setPositiveButton("Try Again", new DialogInterface.OnClickListener() {
+                                    @Override
+                                    public void onClick(DialogInterface dialog, int which) {
+                                        Intent intent = new Intent(MainActivity.this, MainActivity.class);
+                                        startActivity(intent);
+                                        finish();
+                                    }
+
+                                }).setNegativeButton("Exit", new DialogInterface.OnClickListener() {
+                                    @Override
+                                    public void onClick(DialogInterface dialog, int which) {
+                                        finish();
+                                    }
+                                });
+                        dialogDraw.show();
                     }
             }
         }
